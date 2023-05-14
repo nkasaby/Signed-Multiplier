@@ -1,3 +1,4 @@
+//Authors : Nour Kasaby, Mariam Elghobary, Nadine Safwat
 `timescale 1ns / 1ps
 
 module main(input clk, multiply, rightb, leftb, input[7:0] mp,mc, output endmult, output [0:6] segments, output [3:0] anode_active);
