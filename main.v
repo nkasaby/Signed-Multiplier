@@ -1,61 +1,80 @@
-//Authors : Nour Kasaby, Mariam Elghobary, Nadine Safwat
-`timescale 1ns / 1ps
+// file: button_CU.v
+// author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
+// This module will 
 
-module main(input clk, multiply, rightb, leftb, input[7:0] mp,mc, output endmult, output [0:6] segments, output [3:0] anode_active);
-wire clk_out;
-reg [1:0] decoder;
-wire [1:0] cout, sel;
-wire [14:0] product;
-wire [19:0] BCD;
-wire seg1, seg2, seg3;
-reg [3:0] d1,d2,d3, seg;
-wire sign ,e;
+`timescale 1ns/1ns
 
-clockDivider cd(clk,1'b0, clk_out);
-nbit_counter #(2,4) c (clk_out,1'b1,1'b1,1'b0,cout);
-
-//module signedSequentialMultiplier(input clk, mult, input [7:0] mp, mc, output sign, e, output [14:0] product );
-
-signedSequentialMultiplier mult (.clk(clk), .mult(multiply), .mp(mp), .mc(mc), .e(e), .product (product) );
-
-binToBCD bbcd (product[14:0], BCD);
-buttonControlUnit bcu (clk, rightb, leftb, multiply, sel);
-assign sign = ((mp[7])^(mc[7]));
-
-always @ (*) begin 
-  case(sel)
-    0: begin
-      d1 <= BCD[3:0];
-      d2<= BCD[7:4];
-      d3 <= BCD[11:8]; end
-    1: begin 
-      d1 <= BCD[7:4];
-      d2<= BCD[11:8];
-      d3 <= BCD[15:12]; end
-    default: begin
-      d1 <= BCD[11:8];
-      d2<= BCD[15:12];
-      d3 <= BCD[19:16]; end
+module main
+    (
+        input clk, 
+        input multiply_but, 
+        input right_but, 
+        input left_but, 
+        input[7:0] multiplier,
+        input[7:0] multiplicand, 
+        output endmult, 
+        output [0:6] segments, 
+        output [3:0] anode_active
+    );
     
-  endcase
- /* 
-  case(cout)
-    0: begin seg = product[15] ? 4'd10 : 4'd11; decoder = 2'b0; end
-    1: begin seg = d1; decoder = 2'b1; end
-    2: begin seg = d2; decoder = 2'd2; end
-    3: begin seg = d3; decoder = 2'd3; end
-  endcase 
-end
-
-SevenSeg ss (decoder, seg, segments, anode_active);
-*/
-case(cout)
-    0:  seg = d1; 
-    1:  seg = d2; 
-    2:  seg = d3;  
-    3:  seg = sign ? 4'd10 : 4'd11; 
-  endcase 
-end
-
-SevenSeg ss (cout, seg, segments, anode_active);
+    wire clk_out;
+    wire mult;
+    wire [1:0] counter_out;
+    wire [1:0] button_sel;
+    wire [14:0] product;
+    wire [19:0] BCD;
+    wire segmnet_1;
+    wire segment_2;
+    wire segment_3;
+    wire const_0;
+    wire const_1;
+    wire sign;
+    
+    reg [3:0] digit_1;
+    reg [3:0] digit_2;
+    reg [3:0] digit_3;
+    reg [3:0] segment_display;
+    
+    assign const_0 = 1'b0;
+    assign const_1 = 1'b1;
+    
+    button_detector detect_mult (.clk(clk), .in(multiply_but), .out(mult));
+    clock_divider clk_div (.clk(clk) , .rst(const_0), .clk_out(clk_out));
+    n_bit_counter #(.n(2), .modulo(4)) counter (.clk(clk_out) , .en(const_1), .up_down(const_1), .load(const_0), .count(counter_out));
+    signed_seq_mult seq_multiplier (.clk(clk), .multiply_but(mult), .multiplier(multiplier), .multiplicand(multiplicand), .done(endmult), .sign(sign), .product(product));
+    bin_to_BCD bbcd (.bin(product[14:0]), .bcd(BCD));
+    button_CU bcu (.clk(clk) , .right_but(right_but), .left_but(left_but), .multiply(mult), .out(button_sel));
+    
+    
+    always @ (*) begin 
+        case(button_sel)
+            2: begin
+                digit_1 = BCD[3:0];
+                digit_2 = BCD[7:4];
+                digit_3 = BCD[11:8]; 
+                
+            end
+            
+            1: begin 
+                digit_1 = BCD[7:4];
+                digit_2 = BCD[11:8];
+                digit_3 = BCD[15:12];
+            end
+            
+            0: begin
+                digit_1 = BCD[11:8];
+                digit_2 = BCD[15:12];
+                digit_3 = BCD[19:16]; 
+            end
+        endcase
+        
+        case(counter_out)
+            0:  segment_display = digit_1; 
+            1:  segment_display = digit_2; 
+            2:  segment_display = digit_3;  
+            3:  segment_display = (sign) ? 4'd10 : 4'd11;
+        endcase 
+    end
+    
+    seven_segment ss (.en(counter_out), .num(segment_display), .segments(segments), .anode_active(anode_active));
 endmodule
