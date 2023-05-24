@@ -92,22 +92,34 @@ In this stage, we used the circuits we created in logisim as a basis for the mod
 
 #### Utility Modules:
 - [***synchronizer***](https://github.com/nkasaby/Signed-Multiplier/blob/main/synchronizer.v)
+
 This module essentially mimics a D-flip flop as it receives a user given input and the output changes along with the input. This is done using an always block triggered by the positive edge of the clock and two nonblocking assignments inside the always block. This module reduces the possibility of metastability due to the changing of input inside the t<sub>su</sub> and t<sub>hold</sub>.
 
 - [***debouncer***](https://github.com/nkasaby/Signed-Multiplier/blob/main/debouncer.v)
+
 This module is needed due to the fact that the mechanical push button, the switch may bounce back and forth until it settles to the value it's supposed to be. This bouncing usually settles within 20ms, therefore we use three D-flip flops (3 non blocking assignments) that receive a clock of 100MHz and will only output 1 when all three flip flops are 1.
 
 - [***rising_edge***](https://github.com/nkasaby/Signed-Multiplier/blob/main/rising_edge.v)
+
 This is an FSM that generates one tick when the input changes from 0 to 1. It has three states, A is when no 1s have been received, B is when one 1 is received and C is when any other 1 is received. The output will only be one in state B, which will make sure the push of the button will only produce 1 for one clock cycle. 
 
 - [***n_bit_counter***](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_counter.v)
+
 This is a parameterized module that will count up or down when the enable is on. It is triggered by the positive edge of the clock and if load is 1, it will load 0, otherwise it will check the up_down flag and add or subtract to the current value based on the result. The parameter modulo will limit the counter to modulo - 1 and the parameter n will decide the number of bits the number will be represented with. 
 
 - [***clock_divider***](https://github.com/nkasaby/Signed-Multiplier/blob/main/clock_divider.v)
+
 This makes an instance of  the counter module to count up to the required frequency (a parameter) using the clock input and then this counter will control the output clock. This method give us clock out to have a f<sub>out</sub> =  f<sub>in</sub> / 2*freq 
 	
 - [***button_detector***](https://github.com/nkasaby/Signed-Multiplier/blob/main/button_detector.v)
+
+This module brings together the previous modules, synchronizer, debouncer and rising_edge, so that the mechanical button can correctly be detected, it uses the clk_out from the clock divider with frequency of 100Hz. We did this because the built in clock was too fast and the buttons were being detected incorrectly and this raised a few issues with our next modules. 
+
 - [***button_CU***](https://github.com/nkasaby/Signed-Multiplier/blob/main/button_CU.v)
+
+This is an FSM that will detect when the left, right and middle (multiply) buttons are detected using the previously mentioned button detector. It will then move through three different states based on which button is pressed and will decide which three digits will be displayed on the 7 segment. This module was changed from the circuit we showed in the logisim implementation as it was easier to trace through the code using FSM. We experienced a large bump in the module during testing as it seemed as though one state was being skipped over, which should have been impossible, however, after some debugging, we were able to trace the issue back to the button detector and not this module. 
+
+
 - [***dff_15bit***](https://github.com/nkasaby/Signed-Multiplier/blob/main/dff_15bit.v)
 - [***n_bit_shifter***](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_shifter.v)
 
