@@ -1,6 +1,6 @@
 // file: n_bit_shifter.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will shift the input's bits to the left or to the right depending on the value of left_right
 
 `timescale 1ns/1ns
 
