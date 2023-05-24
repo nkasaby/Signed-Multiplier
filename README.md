@@ -4,7 +4,7 @@ In this project we implemented an 8-bit signed sequential multiplier which utili
 ### Stage I
 The datapath consists primarily of five parts:
 
-**- Unsigned Multiplier**
+- **Unsigned Multiplier**
 
 This sub-structure is enabled by a push-down multiplication button and takes in the 8 bit signed multiplier and multiplicand. The multiplier converts them to unsigned and then carries out unsigned multiplication as covered in our lectures through the shift and add algorithm. Since the greatest magnitude that can be resembled in an 8-bit signed number is 128, the greatest product is 16384 which can be represented by 15 bits and 5 decimal digits. Thus the multiplier outputs a 15-bit product, as well as an additional 1 bit representing the sign of the product (1 negative and 0 positive). The sign bit is assigned based on the signs of the inputs and the output is connected immediately to the display mux without further processing.
 
