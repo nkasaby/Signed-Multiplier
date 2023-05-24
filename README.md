@@ -57,8 +57,7 @@ This component uses 7 single bit full adders to produce the two’s complement o
 While researching the double dabble algorithm, we found the truth table for the shift add 3 algorithm and from it we created k-maps to synthesize a circuit for S0,S1,S2,S3 so that we can use them in the Shift Add 3 black box to implement the double dabble algorithm to convert binary to BCD.
 
 
-
-
+![Truth Table](https://github.com/nkasaby/Signed-Multiplier/blob/main/truth%20table.png)
 
 
 
