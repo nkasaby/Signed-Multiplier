@@ -1,6 +1,6 @@
 // file: n_bit_counter.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will increment or decrement depending on the value of up_down
 
 `timescale 1ns/1ns
 
