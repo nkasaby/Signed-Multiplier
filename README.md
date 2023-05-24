@@ -76,7 +76,7 @@ While researching the double dabble algorithm, we found the truth table for the 
 
 
 - **Shift and Add 3**
-In this circuit we gave it 4 bits as an input and they all go through the S0_circuit, S1_circuit,S2_circuit and S3_circuit and accordingly produce the S0,S1,S2,S3 outputs that we observed in the truth table above.
+In this circuit we gave it 4 bits as an input and they all go through the S0_circuit, S1_circuit,S2_circuit and S3_circuit and accordingly produce the S0,S1,S2,S3 outputs that we observed in the truth table above. The way this works is that it adds 3 whenever the nibble (4 bit number) is 5 or more.
 
 - **Binary to BCD** 
 
