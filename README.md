@@ -87,3 +87,33 @@ The circuit takes in 6 inputs which are the multiply button to signal the beginn
 _________________
 
 ### Stage III
+
+In this stage, we used the circuits we created in logisim as a basis for the modules we'd create in Verilog. Some modules, including all the components of the button detector, the clock divider and the seven segment display, were already made and tested in the lab and I recycled them in our project with small modifications. The biggest modules that were created from scratch were the multiplier, the binary to BCD and the main module. 
+
+#### Utility Modules:
+- [**synchronizer**] (https://github.com/nkasaby/Signed-Multiplier/blob/main/synchronizer.v)
+This module essentially mimics a D-flip flop as it receives a user given input and the output changes along with the input. This is done using an always block triggered by the positive edge of the clock and two nonblocking assignments inside the always block. This module reduces the possibility of metastability due to the changing of input inside the tsu and thold.
+
+- [**debouncer**] (https://github.com/nkasaby/Signed-Multiplier/blob/main/debouncer.v)
+This module is needed due to the fact that the mechanical push button, the switch may bounce back and forth until it settles to the value it's supposed to be. This bouncing usually settles within 20ms, therefore we use three D-flip flops (3 non blocking assignments) that receive a clock of 100MHz and will only output 1 when all three flip flops are 1.
+
+- [**rising_edge**] (https://github.com/nkasaby/Signed-Multiplier/blob/main/rising_edge.v)
+This is an FSM that generates one tick when the input changes from 0 to 1. It has three states, A is when no 1s have been received, B is when one 1 is received and C is when any other 1 is received. The output will only be one in state B, which will make sure the push of the button will only produce 1 for one clock cycle. 
+
+- **n_bit_counter**
+This is a parameterized module that will count up or down when the enable is on. It is triggered by the positive edge of the clock and if load is 1, it will load 0, otherwise it will check the up_down flag and add or subtract to the current value based on the result. The parameter modulo will limit the counter to modulo - 1 and the parameter n will decide the number of bits the number will be represented with. 
+
+- **clock_divider**
+This makes an instance of 
+	
+- **button_detector**
+- **button_CU**
+	
+- **dff_15bit**
+- **n_bit_shifter**
+
+#### Main Modules:
+- **bin_to_BCD**
+- **signed_seq_mult**
+- **seven_segment**
+- **main**
