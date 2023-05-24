@@ -1,6 +1,6 @@
 // file: button_detector.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will detect when a button is pressed
 
 `timescale 1ns/1ns
 
