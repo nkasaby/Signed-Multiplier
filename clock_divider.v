@@ -1,6 +1,6 @@
 // file: clock_divider.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will divide the clock frequency from 10MHz to about 100Hz according the the FPGA provided in the lab
 
 `timescale 1ns/1ns
 
