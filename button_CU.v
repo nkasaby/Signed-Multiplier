@@ -1,6 +1,7 @@
 // file: button_CU.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+/* This module will make sure that when you press the right button the counter increments at most twice so that the maximum scrolling can be 2 scrolls to the right.
+   Likwise, it will also make sure that when you press the left button the counter decrements at most twice so that the maximum scrolling can be 2 scrolls to the left.*/
 
 `timescale 1ns/1ns
 
