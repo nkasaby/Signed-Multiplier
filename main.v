@@ -1,6 +1,7 @@
 // file: button_CU.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+/* This module will multiply two signed 8 bit numbers and display the signed product on a 7 segment display. 
+ It also allows for the user to scroll and choose which 3 digits of the 5 digit number to display through the use of a left and right button.*/
 
 `timescale 1ns/1ns
 
