@@ -1,6 +1,6 @@
 // file: dff_15bit.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will store in the values of the partial products after the multiplication occurs
 
 `timescale 1ns/1ns
 
