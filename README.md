@@ -119,9 +119,13 @@ This module brings together the previous modules, synchronizer, debouncer and ri
 
 This is an FSM that will detect when the left, right and middle (multiply) buttons are detected using the previously mentioned button detector. It will then move through three different states based on which button is pressed and will decide which three digits will be displayed on the 7 segment. This module was changed from the circuit we showed in the logisim implementation as it was easier to trace through the code using FSM. We experienced a large bump in the module during testing as it seemed as though one state was being skipped over, which should have been impossible, however, after some debugging, we were able to trace the issue back to the button detector and not this module. 
 
-
 - [***dff_15bit***](https://github.com/nkasaby/Signed-Multiplier/blob/main/dff_15bit.v)
+
+This is a 15 bit load register that will store the partial product in the multiplier module, written exactly as I would write a module for a D-flip flop except the input and output are 15 bits. 
+
 - [***n_bit_shifter***](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_shifter.v)
+
+This module will receive an input to load the register and then will check the left_reihht flag to check which way it will shift, then, using concatenation, it will shift accordingly. This module is parametrized and can shift any given number of n bits. 
 
 #### Main Modules:
 - [***bin_to_BCD***](https://github.com/nkasaby/Signed-Multiplier/blob/main/bin_to_BCD.v)
