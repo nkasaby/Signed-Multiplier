@@ -134,9 +134,20 @@ This module will receive an input to load the register and then will check the l
 
 #### Main Modules:
 - [***bin_to_BCD***](https://github.com/nkasaby/Signed-Multiplier/blob/main/bin_to_BCD.v)
+
+Creating this module on Verilog was infinitely easier than drawing it on logisim. Using a simple for loop, the module will go through the given 15 bit input and check every byte of the input. If the number is greater than 5 then the number 3 will be added to that byte. After all the checks are done, the number is shifted one place to the left and the LSB is loaded with the bit we are currently looping over. This is the double dabble algorithm.  This module is essential as our 7 segment display module will only receive a four bit binary number, therefore it is acting as a translator between our multiplier output and our 7 segment input. 
+
 - [***signed_seq_mult***](https://github.com/nkasaby/Signed-Multiplier/blob/main/signed_seq_mult.v)
+
+This is the module that uses the shift and add algorithm we discussed in the lecture. Using the MSB of the multiplicand and multiplier we will store their positive values using two's complement in new wires and using the XOR gate we can get the sign for our product. When we detect the multiply button using the button detector module the shift registers will begin shifting the positive values of the multiplier and multiplicand. While this happens, if the LSB of the right shifted value is 1, the left shifted value of the multiplicand will be added to the partial product which is stored in an instantiation of dff_15bit. A flag called shift will continue to check the right shifted value of the multiplier. Once that value reaches zero, the flag will end the shifting and the product will be sent as the output
+
 - [***seven_segment***](https://github.com/nkasaby/Signed-Multiplier/blob/main/seven_segment.v)
+
+This module will receive an enable signal to decide which of the four 7 segments will be enabled and this is generated using the button_CU module. The leftmost 7seg will always display the sign whereas the last 3 will show the number and as it shifts. Using a case statement, the module will check for which number it has received and display it using the7 bit codes designed. If the number given is 10 then the 7 segment will display a minus sign, and if any number greater than that is given, the display will be turned off. Seeing as there is no way to show a plus sign on a 7 seg, any positive number will have no sign shown. 
+
 - [***main***](https://github.com/nkasaby/Signed-Multiplier/blob/main/main.v)
+
+This is our top module that brings all the rest of the modules together. It will detect the multiply button, then produce a clk_out of 100 Hz using the clock_divider. A 2 bit modulo 4 counter is then created, taking in the clk_out to produce a select that will decide the digit the seven segment should display. Consequently, an instantiation of the multiplier is created and a product is formed. This product is passed to the binary to BCD module and will return 20 bits containing each of the 5 digits separated into 4 bits each which can then be passed into the seven segments to be displayed. The button_CU will then return the select that will decide where each digit will appear and the seven_segment module will receive all this information to correctly display the final product. The use of the clock_divider ensures that the seven segment looks stable and non-flickering. 
 
 ## Implementation Issues
 
