@@ -1,6 +1,6 @@
 // file: bin_to_BCD.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will convert a 15 bit binary number to a 5 digit decimal number
 
 `timescale 1ns/1ns
 
