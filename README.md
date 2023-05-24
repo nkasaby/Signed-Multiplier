@@ -103,7 +103,7 @@ This is an FSM that generates one tick when the input changes from 0 to 1. It ha
 - [***n_bit_counter***](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_counter.v)
 This is a parameterized module that will count up or down when the enable is on. It is triggered by the positive edge of the clock and if load is 1, it will load 0, otherwise it will check the up_down flag and add or subtract to the current value based on the result. The parameter modulo will limit the counter to modulo - 1 and the parameter n will decide the number of bits the number will be represented with. 
 
-- [***clock_divider***](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_counter.v)
+- [***clock_divider***](https://github.com/nkasaby/Signed-Multiplier/blob/main/clock_divider.v)
 This makes an instance of 
 	
 - [***button_detector***](https://github.com/nkasaby/Signed-Multiplier/blob/main/button_detector.v)
