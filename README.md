@@ -30,6 +30,8 @@ Our driving circuit is attached to the BCD to 7 segment decoder where the select
 
 ### Stage II
 
+______________________________________________________________________________________________________________________________________________________________
+
 The main logisim circuit consisted of already existing components in logisim-evolution along with black boxes we have made. In this section I will be discussing every blackbox and its function in depth.
 
 - **Unsigned Multiplier**
