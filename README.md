@@ -32,27 +32,27 @@ Our driving circuit is attached to the BCD to 7 segment decoder where the select
 
 The main logisim circuit consisted of already existing components in logisim-evolution along with black boxes we have made. In this section I will be discussing every blackbox and its function in depth.
 
-**Unsigned Multiplier**
+- **Unsigned Multiplier**
 
 We made a component or a black box on logisim to carry out the unsigned multiplication of 8 bit numbers. In logisim we created two versions of the multiplier component. The general idea behind this component is that it takes in 2 8 bit numbers; one multiplier and the other is the multiplicand; and finds the two’s complement using a two’s complement blackbox which will be discussed later. It then checks the most significant bit in each number and uses a MUX to select whether the two’s complement will be used (if number is negative; ie, MSB=1) or the actual binary number will be used (if number is positive; ie, MSB=0) by using the MSB as a selection for the MUX. The the multiplier will be shifted the the right using an 8 bit shift register which already exists on logisim-evolution and the multiplicand will be shifted to the left using a 15 bit shift register.Using b0 of the multiplier (after shifting) as a select for the MUX we will decide whether to add 8’b0 into the D flip flop that stores the partial products (if b0=0) or add the partial product + the shifted multiplicand to teh D flip flop (if b0=1). The multiplication process starts by pressing a “Multiply Button'' which is detected via a button detector. The sign of the product is also an output attained by putting the MSB of the two numbers in an XOR gate; if the XOR out is 0, it’s a positive product and if it is 1 then it is a negative product. In the first version which was named “unsignedMultiplier'', the control signals for the shift register enables and loads and the D flop flip’s enable were influenced by the button detector, T-flip flop, a D flip flop and a modulo 8 counter which worked in a way such that the registers would load only when the button is pressed and shift occurs up until 8 shifts have been completed then it stops shifting signaling the end of the multiplication process. The enable of the D flip flop that stores the partial products will also be 0 when 8 shifts have occurred to avoid endless repetition of the multiplication. However, this version was not used and was replaced by another one named “multiplypart2” which got rid of the extra hardware used to generate these control signals and instead used the button detector output as the load control signals for both shift registers and the check of whether multiplication process was done or not was via a NOR gate to check if the shifted multiplier is 0 or not. The inverted output of this NOR gate was used as the shift registers’ enable signals and the non inverted output was the mux select which chooses whether the product is 0 or an actual number.
 
-**Button detector** 
+- **Button detector** 
 
 The button detector consists of a debouncer which is made out of 3 flip flops and a 3 input AND gate that takes in the output of each flip flop, a synchronizer which is made out of 2 flip flops and a rising edge detector which is made out of a D flip flop and a 2 input AND gate that takes in D and ~Q.
 
-**Button control unit** 
+- **Button control unit** 
 
 The button control  unit uses a button detector, a lot of gates, and a modulo 3 up-down counter. The button detector detects when the right button is pressed and increments the counter however it makes sure that the button could not shift the number displayed on the 7 segment display more than 3 times. The same thing happens with the left button but the counter decrements instead of increments. 
 
-**Clock divider**
+- **Clock divider**
 
 This component uses a modulo 5 counter and a T-flip flop to make the output frequency 1/10 of the input frequency. We set the frequency of the clock on logisim at 1000Hz and hence used this modulo counter to make the output frequency match the output frequency we’ve been using on the FPGA in the lab which is 100Hz.
 
-**2’s complement**
+- **2’s complement**
 
 This component uses 7 single bit full adders to produce the two’s complement of an 8 bit number. It works by assigning the first bit of the number (LSB) as the first bit in the two’s complement (LSB) then checks if the next bit is a 1 or not using a full adder (that acts as a half adder) which adds b0, b1 and 0. The sum is the second bit of the product. Then the next full adders take in the carry and sum from the previous adders and add the next bit in the number. The way this works is that it keeps on copying the bits of the number to the two’s complement from LSB to MSB until the first 1 then it inverts the bits.
 
-**S0_circuit,S1_circuit,S2_circuit,S3_circuit**
+- **S0_circuit,S1_circuit,S2_circuit,S3_circuit**
 
 While researching the double dabble algorithm, we found the truth table for the shift add 3 algorithm and from it we created k-maps to synthesize a circuit for S0,S1,S2,S3 so that we can use them in the Shift Add 3 black box to implement the double dabble algorithm to convert binary to BCD.
 
