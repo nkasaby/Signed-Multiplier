@@ -1,7 +1,10 @@
 # Signed-Multiplier
+
 In this project we implemented an 8-bit signed sequential multiplier which utilizes the shift and add algorithm. This multiplier mimics how multiplication is performed on paper and displays the signed results in decimal on the FPGA’s 7-segment display. Our design process progressed systematically through three main stages which were: designing the datapath (block diagram), creating and simulating a logisim implementation, and writing verilog code for final FPGA implementation. 
+
 ## The Design
 ### Stage I
+
 The datapath consists primarily of five parts:
 
 - **Unsigned Multiplier**
@@ -80,6 +83,8 @@ In this circuit we gave it 4 bits as an input and they all go through the S0_cir
 
 - **Binary to BCD** 
 
+The Double Dabble technique which is the method we used for converting a binary number to binary-coded decimal (BCD) representation. The way this algorithm works is that it uses a shift register where the binary number is loaded on the right and the BCD nibbles on the left, initially set to zero. It performs left shifts, doubling the value, and adds 3 to a BCD digit if it is 5 or larger, ensuring the nibbles stay within the 0-9 range. This "add 3" rule compensates for the reduced weight of a shifted-out bit, aiming to cause an "early carry" at 10 rather than 16. The process continues until the final binary digit is shifted into the BCD portion of the register. The algorithm guarantees that BCD nibbles only hold valid BCD values. To extract the resulting BCD digits, shift and mask operations are typically employed. The way we implemented it on logism was using the truth table above to create the blackboxes  S0_circuit, S1_circuit,S2_circuit and S3_circuit and used them to synthesize the conditional adder blackbox which is “shift_add_3”. The “binarytoBCD” circuit was made out of 30 shift_add_3 circuits where the first shift_add_3 receives the last 3 bits of the number and a 0, then its first 3 outputs go into another shift_add_3 circuit along with the next bit from the number and so on. Also there was a recognisable pattern such that with every 3 shift_add_3 circuit increase the number of shift_add_3 circuit in the row.
+
 - **Main**
 
 The circuit takes in 6 inputs which are the multiply button to signal the beginning of the multiplication, two 8 bit numbers which are the multiplier and the multiplicand, right button and left button to scroll through the digits of the numbers to be displayed on the 7segment display and a clock. The we used the multiplypart2 blackbox to complete the multiplication as explained in the unsigned multiplication section. This will output the sign of the product, turn on a LED when the multiplication is over and the product of the multiplication. The product is then passed to the binarytoBCD blackbox which converts the product from a binary number to a decimal number consisting of 5 digits. Then we use 3 2x1 multiplexers to choose the possible 3 digit combinations that we can get and one 2x1 multiplexer for the sign. We also used the button control unit to control the how much you can scroll when you press on the right and left buttons. The output of this blackbox is used as the select lines for the previously mentioned 3 2x1 multiplexers to determine which combination to show on the 7seg display. We also used a clock divider to lower the frequency for the 7 segment display so that the numbers would appear to be contant. This clock divider is connected to a 2 bit counter which  is used as a selection life for a 4x1 multiplexer that takes in the outputs of the previous 4 2x1 multiplexers as inputs. The counter output is also an inout for a 2x4 decoder alongside a constant 1. We used the built in 7segment display units in logism to simulate the 7segment display. We added 4 7 segement display units. The first one (on the left) represents the sign only, so it’s either off when the product is positive or shows a minus sign when the product is negative. The other 3 7segment display units are controlled via a 2x1 mux with a as one input which turns it off and the output of the 4x1 multiplexer as the other input and the decoder is the selection line of these multiplexers.
@@ -132,3 +137,16 @@ This module will receive an input to load the register and then will check the l
 - [***signed_seq_mult***](https://github.com/nkasaby/Signed-Multiplier/blob/main/signed_seq_mult.v)
 - [***seven_segment***](https://github.com/nkasaby/Signed-Multiplier/blob/main/seven_segment.v)
 - [***main***](https://github.com/nkasaby/Signed-Multiplier/blob/main/main.v)
+
+## Implementation Issues
+
+We only faced one issue in our final implementation which is the fact that the LED on the FPGA that signals the end of the multiplication is always in due to the high clock frequency of the FPGA which does not make the LED seem visibly off when multiplication is still ongoing.
+
+## Validation Activities
+
+During the initial steps of creating the modules, I used the validate feature in cloud.v to validate the syntax of my code. Next, when all the modules were written and the syntax was sound, we created testbenches for the modules we weren't sure were fully functional. Finally, after creating the constraints we were able to debug and test using the FPGA. This was a lengthy process that required a lot of focus as there had been multiple small logic errors in a lot of the modules, however, after nine hours of sitting in the digital lab we were able to fix most of the main issues. 
+
+## Contribution
+
+As always, this project was a group effort and no team member was left to take the majority of the work. Mariam thought of the datapath and Nour implemented it on draw.io for the first milestone. Then for the second milestone mariam implemented the binary_to_BCD circuit using the double dabble algorithm while Nour implemented the rest of the circuit components which were discussed in the report above in Stage II. Nadine created the initial Verilog modules. Then we all sat in the digital lab to fix the bugs in our initial implementation till the code and the 7seg display worked the way we want it to.
+
