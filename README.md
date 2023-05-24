@@ -100,7 +100,7 @@ This module is needed due to the fact that the mechanical push button, the switc
 - [rising_edge](https://github.com/nkasaby/Signed-Multiplier/blob/main/rising_edge.v)
 This is an FSM that generates one tick when the input changes from 0 to 1. It has three states, A is when no 1s have been received, B is when one 1 is received and C is when any other 1 is received. The output will only be one in state B, which will make sure the push of the button will only produce 1 for one clock cycle. 
 
-- **n_bit_counter**
+- [**n_bit_counter**](https://github.com/nkasaby/Signed-Multiplier/blob/main/n_bit_counter.v)
 This is a parameterized module that will count up or down when the enable is on. It is triggered by the positive edge of the clock and if load is 1, it will load 0, otherwise it will check the up_down flag and add or subtract to the current value based on the result. The parameter modulo will limit the counter to modulo - 1 and the parameter n will decide the number of bits the number will be represented with. 
 
 - **clock_divider**
