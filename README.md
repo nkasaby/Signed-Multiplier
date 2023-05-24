@@ -4,27 +4,27 @@ In this project we implemented an 8-bit signed sequential multiplier which utili
 ### Stage I
 The datapath consists primarily of five parts:
 
-**Unsigned Multiplier**
+**- Unsigned Multiplier**
 
 This sub-structure is enabled by a push-down multiplication button and takes in the 8 bit signed multiplier and multiplicand. The multiplier converts them to unsigned and then carries out unsigned multiplication as covered in our lectures through the shift and add algorithm. Since the greatest magnitude that can be resembled in an 8-bit signed number is 128, the greatest product is 16384 which can be represented by 15 bits and 5 decimal digits. Thus the multiplier outputs a 15-bit product, as well as an additional 1 bit representing the sign of the product (1 negative and 0 positive). The sign bit is assigned based on the signs of the inputs and the output is connected immediately to the display mux without further processing.
 
-**Button Detectors**
+**- Button Detectors**
 
 Our system takes in input signals from 3 buttons. The first is the multiplication button which initiates the multiplication. The second and third are the scroll-left and scroll-right buttons which enable scrolling through the outputted decimal digits. Since the FPGA we use operates on a clock with a very high frequency of 100MHz, any press on a mechanical push-button will not only cause initial signal fluctuation due to bouncing, but a single press, no matter how fast, will last for a massive number of clock cycles. Consequently, operations run by our system will be repeated for a very large number of times which may negatively influence the system’s functionality and will definitely taint its efficiency. Thus all of our buttons are attached to a button detector circuit which debounces the input signal and ensures that the signal is 1 for exactly 1 clock cycle per press. The button detectors for the left and right scroll buttons are implemented within their corresponding control unit.
 
-**Binary To BCD Converter**
+**- Binary To BCD Converter**
 
 After completing the multiplication, we are left with our product’s magnitude as an unsigned 15-bit binary number. For this to be transformed into a decimal number shown on the 7-segment display, every decimal digit (total 5) must be converted into a 4-bit binary-coded decimal (BCD). Our converter achieves this through the famous double dabble algorithm . The algorithm logic and implementation will be discussed in detail in later sections of the report. 
 
-**Digit Selection Circuit**
+**- Digit Selection Circuit**
 
 Since we only have 4 displays on our FPGA board, and since the left-most is always allocated to display the sign, we can only display a combination of 3 of the 5 digits at a time.  Consequently, scrolling through the 5 digits is a necessity for the practical functionality of the multiplier. This selection is done through three 4x1 multiplexers each selecting 4 bits corresponding to a single decimal digit. The initial output combination is digits 1,2 and 3 (numbered from left to right). Scrolling allows the transitioning between the display of the leftmost 3 digits, middle three digits, and rightmost 3 digits. The determination of the selected digits is done through the selection line of the multiplexers which is generated through the button’s control unit. The control unit takes in input signals from the multiplication button, scroll left button and scroll right button and outputs the selection value corresponding to the desired digit combination.
 
-**7-Segments Driving Circuit**
+**- 7-Segments Driving Circuit**
 
 The 7 segment display on the FPGA enables the display of one digit on all displays at a time. Thus in order to display 3 digits and a sign, we must rapidly alternate between the FPGA’s display digits and the numbers to be displayed, displaying one decimal digit on one display at a time. This has to be done at a very high frequency so that the human eye cannot detect the alterations and instead sees the 3 digits at the same time without any flickering. Thus we use a multiplexed display to showcase our decimal digits on the FPGA board. Our driving circuit consists of a 2-bit binary counter who’se clock is sourced from a clock divider yielding a high frequency. The counter is attached to a binary decoder and another 4x1 display multiplexer. As the binary counter output alternates rapidly  from 0 up to 3 and back to 0 the decoder output changes enabling the activation of a different digit display per counter output. The multiplexer selection line which is also attached to the counter output also alternated per count selecting a different numerical digit from our product. 
 
-**BCD To 7 Segments**
+**- BCD To 7 Segments**
 
 Our driving circuit is attached to the BCD to 7 segment decoder where the selected display digit on the FPGA is lit with the corresponding 7-segment LED output for the chosen BCD decimal digit.
 
