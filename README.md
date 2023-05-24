@@ -28,9 +28,9 @@ The 7 segment display on the FPGA enables the display of one digit on all displa
 
 Our driving circuit is attached to the BCD to 7 segment decoder where the selected display digit on the FPGA is lit with the corresponding 7-segment LED output for the chosen BCD decimal digit.
 
-### Stage II
+_________________
 
-______________________________________________________________________________________________________________________________________________________________
+### Stage II
 
 The main logisim circuit consisted of already existing components in logisim-evolution along with black boxes we have made. In this section I will be discussing every blackbox and its function in depth.
 
@@ -75,6 +75,9 @@ While researching the double dabble algorithm, we found the truth table for the 
 
 
 
-**Shift and Add 3**
+- **Shift and Add 3**
 In this circuit we gave it 4 bits as an input and they all go through the S0_circuit, S1_circuit,S2_circuit and S3_circuit and accordingly produce the S0,S1,S2,S3 outputs that we observed in the truth table above.
 
+_________________
+
+### Stage III
