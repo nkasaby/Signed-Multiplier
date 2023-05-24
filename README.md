@@ -28,6 +28,7 @@ The 7 segment display on the FPGA enables the display of one digit on all displa
 
 Our driving circuit is attached to the BCD to 7 segment decoder where the selected display digit on the FPGA is lit with the corresponding 7-segment LED output for the chosen BCD decimal digit.
 
+<br />
 ### Stage II
 
 The main logisim circuit consisted of already existing components in logisim-evolution along with black boxes we have made. In this section I will be discussing every blackbox and its function in depth.
