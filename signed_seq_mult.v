@@ -1,6 +1,7 @@
 // file: signed_seq_mult.v
 // author: Nour Kasaby, Mariam ElGhobary, Nadine Hakam
-// This module will take in two signed 8 bit numbers and return the sign of the final product and multilpy the two numbrs as unsigned numbers to obtain the magnitude of the product.
+/* This module will take in two signed 8 bit numbers and return the sign of the final product and multilpy the two 
+    numbers as unsigned numbers to obtain the magnitude of the product.*/
 
 `timescale 1ns/1ns
 
