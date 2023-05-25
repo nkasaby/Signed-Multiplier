@@ -1,6 +1,7 @@
 // file: button_detector.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will detect when a button is pressed
+/* This module will create instantiations of synchronizer, debouncer and rising_edge to deal with the mechanical input of the button,
+    and will take in a clk of 100Hz from the clock divider to accurately dtetct when a button is pressed */
 
 `timescale 1ns/1ns
 
