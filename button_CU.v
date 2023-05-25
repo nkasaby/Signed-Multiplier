@@ -1,7 +1,7 @@
 // file: button_CU.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-/* This module will make sure that when you press the right button the counter increments at most twice so that the maximum scrolling can be 2 scrolls to the right.
-   Likewise, it will also make sure that when you press the left button the counter decrements at most twice so that the maximum scrolling can be 2 scrolls to the left.*/
+/* This Module goes through 3 states based on which button (left or right) is pressed in order to produce a select flag that will allow the seven 
+   segment module to 'scroll' through the 5 digits of the product*/
 
 `timescale 1ns/1ns
 
