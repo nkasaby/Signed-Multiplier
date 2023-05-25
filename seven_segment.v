@@ -1,5 +1,7 @@
 // file: seven_segment.v
-// author: @nadine_hkm
+// author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
+/* This Module will recieve a 4 bit number from the binary to bcd module and, using the created binary codes, will display the given number on the seven segment. If the number is
+    10 a minus sign is shown, if its anything more nothing will show. The input en will decide whoch if the 4 will be turned on. */
 
 `timescale 1ns/1ns
 
