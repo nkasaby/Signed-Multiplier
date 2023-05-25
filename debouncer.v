@@ -1,6 +1,6 @@
 // file: debouncer.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will 
+// This module will recieve the input from the mechanical button and only return 1 if the input is stable enough to make q1, q2, and q3 all 1s 
 
 `timescale 1ns/1ns
 
