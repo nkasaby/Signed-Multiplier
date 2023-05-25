@@ -1,6 +1,7 @@
 // file: rising_edge.v
 // author: Nour Kasaby, Nadine Safwat, Mariam ElGhobary
-// This module will detect the rising edge of the input and 
+/* This module will move through three states in order to return 1 for only one clock cycle, which will ensure that no further module is hindred 
+    by the long mechanical press of the button */ 
 
 `timescale 1ns/1ns
 
